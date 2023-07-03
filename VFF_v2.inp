@@ -1,0 +1,97 @@
+	4 ! QD=1 for hemi-torus, QD=2 for cone, QD=21 for truncated cone, QD=3 for pyramid, QD=4 for Core-Shell
+	1 ! 0 !     bound=0-case I; bound=1-case II ; FOR CORE-SHELL CHANGE TO bound=0
+	1 ! bopt=1 (or 2) for 1st (2nd) choice of bound atoms (see VFF_Main_v2.f90); active only for QD=1,2,21,3.
+	7, 1.5 ! clt1, clt2 (see below explanation)
+	13, 6 ! 19, 13 ! *  Hemi-torus: Rt, Rq (Angström unit)
+	13, 13 ! 21, 21 ! 60, 60 ! * Cone: radius=Rc, height=h; Pyramid: base=2Rc, height=h (Angström unit)
+	13, 13, 8 ! 30, 33, 18 ! 21, 21, 15 ! Truncated cone: radius=Rct, height=ht (height of cone), height truncated cone=hct (distance between the centers of the two bases) 
+	10 ! 20 ! 18 ! 24 !  24 !   Core_radius=RCO
+	5.6533, 6.0584 ! 3.567, 5.431020511 ! 5.6533, 6.0533 ! 5.6533, 6.0583 ! latt_ct: a1-OUT, a2-IN// GaAs:5.6533; GaSb:6.0583/ C:3.567; Si:5.431020511/GaAs:5.6533, InAs:6.0533(Angstrom unit) diamond
+	1,4,4,4,4 ! 1,10,10,6,12 ! 1,12,12,12,12 ! 1,13,13,13,13 ! 1,6,6,5,6 !   *  Nw,nx,ny,nzmin, nzmax
+11.88, 5.38, 8.33, 4.53 ! elast_ct: C11-out, C12-out; C11-in, C12in//GaAs:11.88, 5.38; InAs: 8.33, 4.53
+	4, 2.7 ! 4, 2.4 !  4, 2.4 ! , 2.7, 4, 2.4, 1.6 ! radius,radiuscut1 (Angstrom unit) for Si-in/C-out
+	1, 1d+14 ! 1, 8d+10 !1, 4d+12 ! *strtmax; factr
+	0, 0 ! latshift1, latshift2
+	2 ! 3 ! only for core-shell: htj=2 two atoms (Si/C); htj=3 for 3 atoms (InAs/GaAs)
+	1 ! 0 ! only for core-shell: celshape=0 for parallepiped; celshape=1 for sphere; 
+	1 ! 0 ! only for core-shell: CSQD=1 for a1->a2; CSQD.ne.1 for a1.ne.a2; DO NOT make a1=a2 in the above line 9 if CSQD=1 (because a1->a2 automatically)
+*************************************************************
+A1. PARAMETERS OF COMPOUNDS
+radius=4 (Angstrom unit)
+4, 2.7, 2.7 , 2.7, 1.8, 2.7 ! radius,radiuscut1,radiuscut2,radiuscut3,radiuscut4,radiuscut5 (Angstrom unit) InAs/GaAs & GaSb/GaAs
+4, 2.37, 3.7, 2.7, 1.8, 2.7 ! radius,radiuscut1,radiuscut2,radiuscut3,radiuscut4,radiuscut5 (Angstrom unit) Si/C
+103.6, 4.8, 17.9, 7.3 ! elast_ct: C11-out, C12-out; C11-in, C12-in//C:103.6, 4.8; Si:17.9, 7.3
+11.88, 5.38, 8.83, 4.02 ! elast_ct: C11-out, C12-out; C11-in, C12-in//GaAs:11.88, 5.38; GaSb: 8.83, 4.02
+11.88, 5.38, 8.33, 4.53 ! elast_ct: C11-out, C12-out; C11-in, C12in//GaAs:11.88, 5.38; InAs: 8.33, 4.53
+latt_ct (Angstrom unit):
+5.6533, 6.0584 ! a1-OUT, GaAs; a2-IN, InAs. Grundmann et al. Phys. Rev. B. 52, 11969(1995)
+5.6503, 6.0553 ! a1-OUT, GaAs; a2-IN, InAs. D. Barettin et al. Commun. Comput. Phys. 11, 797-830(2012)
+5.6503, 6.09593 ! a1-OUT, GaAs; a2-IN, GaSb. https://www.ioffe.ru/SVA/NSM/Semicond/GaSb/basic.html
+3.567, 5.431020511 ! a1-OUT, C; a2-IN, Si. /diamond
+
+A2. MEANING OF PARAMETERS
+---
+QD holds for the shape of QD (hemi-torus, cone, pyramid)
+---
+bound is a parameter setting the limits imposed on the motion of each atom during relaxation.
+	case I:  bound=0 for unbound atom (freely changing the atoms position during the relaxation process); 
+	case II: bound=1 for bound structure (limited range of the atoms position during the relaxation process).  
+---
+bopt is a parameter which allows to choose between two sets of constraints imposed to the WL-matrix interface atoms (see VFF_Main_v2.f90).   
+    bopt=1, 1st choice-more restrictive; considered in the manuscript.  
+    bopt=2, 2nd choice-less restrictive; could to be considered for half-torus (faster convergence).         
+  ---
+clt1 coefficient for the substrate simulation (see VFF_Main_v2.f90); 
+clt2 coefficient for the thickness of layer parallel to xy plane with z in [0,clt*a2] (see Main program).
+---
+Rq-torus radius; Rt-central radius of the torus.
+Rc-con radius; h-cone height.
+Rct-con radius; height=ht (height of cone); height truncated cone=hct (distance between the centers of the two bases) 
+RCO-core radius; RCS-core+shell radius
+---
+a1-latt_ct OUT, a2-latt_ct IN (unit Angström).
+---
+Nw,nx,ny,nzmin, nzmax 
+	For QD=1,2,3: Nw #mono-layers; nx, ny #atoms for x>0, y>0 axes; nzmin #atoms on negatíve z axis; nzmin #atoms on positive z axis.
+	For QD=4: nx=ny=nzmin=nzmax; Nw any integer (doesn't enter in the coding).
+---
+C11out, C12out: elastic constants from D. Barettin et al. Commun. Comput. Phys. 11, 797-830(2012).
+C11in, C12in: elastic constants from http://www.ioffe.ru/SVA/NSM/Semicond/GaSb/mechanic.html
+---
+E.g.: 4, 2.7, 3.7, 2.7, 1.8, 2.7 ! radius,radiuscut1,radiuscut2,radiuscut3,radiuscut4,radiuscut5 (Angstrom unit) - default.
+	radius is the radius for searching the first 4 neighbors of each atom; 
+		it is automatically changed in the program to ensure at least 4 NAs for each PA.
+	radiuscut .le. radius is the cutting radius for searching neighbors of each atom;
+		radiuscut is close(larger) to dc12, dc13 (see subroutine elastic_ct)
+---
+strtmax: ex:strtmax=2 loops radiuscut1 & radiuscut2 in Minimization loop; maximum value of strtmax=5; for one step minimization
+		     set strtmax=1.
+---
+factr is accuracy parameter: (f^k - f^{k+1})/max{|f^k|,|f^{k+1}|,1} <= factr*epsmch. 
+	Typical values for factr: 1.d+12 for low accuracy; 
+							  1.d+7 for moderate accuracy;
+							  1.d+1 for extremely high accuracy.
+---
+latshift1, latshift2: set the lateral size (in the xy plane) of matrix and substrate boxes (see in VFF_Main_v2.f90) 
+---
+celshape is only for core-shell; celshape=: 0 for parallepiped shape of the structure; 1 for spherical shape of the structure
+---
+CSQD: setting for lattice constants in only the core-shell problem; if CSQD=1, then a1 becomes equal to a2 (same lattice contant in core and shell);
+	  in the strain calculus 'epscap' should be counted. 
+==============================================================================
+
+A3. COMMENTS
+A3.1. The index associated to the atoms is an ordering label (OL) which remains unchanged after it is assigned;
+	each atom is seen both as a principal atom and a neighbor atom (NA) but has an only OL:
+	OL of Ga: 1,...,N13; OL of Sb: N13+1,...,N13+N2IN; OL of As: N13+N2IN+1,...,N13+N2IN+N4OUT;
+	N13is the total # of Ga atoms, N2IN is the # of Sb atoms, N4OUT is the # of As atoms.
+	Example: If a PA has OL=2 and its first 4 NAs in the unrelaxed (initial) config are (could be) OL=11,12,13,15;
+			 the neighbors OL of any PA (which has its own OL) remains the same in each minimization step.
+
+A3.2. Values of Nw,nx,ny,nzmin,nzmax for convergence relative to the matrix size
+	Pyramidal and conical QD:
+	1,7,7,6,7    ! Rc=h=21
+	1,9,9,6,11   ! Rc=h=42
+	1,13,13,6,15 ! Rc=h=60
+	1,15,15,6,17 ! Rc=h=72
+*************************************************************
