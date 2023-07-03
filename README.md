@@ -1,2 +1,6 @@
 # AS_LBFG_v2
-The numerical code AS_VFF_v2 developed to simulate the atomic elastic relaxation in finite-sized heterostructures is introduced. To minimize the elastic energy the L-BFGS algorithm is utilized.
+The code AS_LBFG_v2 is created to minimize the elastic energy of semiconductor heterostructures formed by inclusion of QD in a matrix of finite size. The zinc-blende symmetry is considered for the heterostructure compounds. Zinc-blende structure is the generic name given to crystals in which the unit cell has two different atoms; each type of atom is placed in a face-centered cubic (FCC) lattice and each atom is located in the center of a regular tetrahedron which has in the four tips the other type of atom. In this version of the code the shape of QD is of island (pyramidal, semi-torus, cone, truncated cone) or spherical (core-shell) type. Other QD shapes can easily be introduced in the code by implementing the subroutine which defines the desired shape. The island QD type stands on a wetting layer (WL) and is embedded in a matrix (rectangular or cylindrical box). The beneath WL matrix is called substrate and the above WL matrix out of QD is called cap.
+The heterostructures that can be considered have:
+(i) three types of atoms A1, A2, A3 forming the heterostructure A1A2/A1A3.
+(ii) two types of atoms A1/A2.
+The elastic parameters of InAs, GaAs, GaSb, Si, C are input parameter in the input file type, VFF_v2.inp.
