@@ -1,18 +1,18 @@
-	4 ! QD=1 for hemi-torus, QD=2 for cone, QD=21 for truncated cone, QD=3 for pyramid, QD=4 for Core-Shell
+	3 ! QD=1 for hemi-torus, QD=2 for cone, QD=21 for truncated cone, QD=3 for pyramid, QD=4 for Core-Shell
 	1 ! 0 !     bound=0-case I; bound=1-case II ; FOR CORE-SHELL CHANGE TO bound=0
 	1 ! bopt=1 (or 2) for 1st (2nd) choice of bound atoms (see VFF_Main_v2.f90); active only for QD=1,2,21,3.
 	7, 1.5 ! clt1, clt2 (see below explanation)
-	13, 6 ! 19, 13 ! *  Hemi-torus: Rt, Rq (Angstrˆm unit)
-	13, 13 ! 21, 21 ! 60, 60 ! * Cone: radius=Rc, height=h; Pyramid: base=2Rc, height=h (Angstrˆm unit)
-	13, 13, 8 ! 30, 33, 18 ! 21, 21, 15 ! Truncated cone: radius=Rct, height=ht (height of cone), height truncated cone=hct (distance between the centers of the two bases) 
-	10 ! 20 ! 18 ! 24 !  24 !   Core_radius=RCO
+	13, 6 ! 19, 13 ! *  Hemi-torus: Rt, Rq (Angstr√∂m unit)
+	21, 21 ! 13, 13 !  60, 60 ! * Cone: radius=Rc, height=h; Pyramid: base=2Rc, height=h (Angstr√∂m unit)
+	13, 13, 8 ! 30, 33, 18 ! Truncated cone: radius=Rct, height=ht (height of cone), height truncated cone=hct (distance between the centers of the two bases) 
+	20 ! 10 ! Core_radius=RCO
 	5.6533, 6.0584 ! 3.567, 5.431020511 ! 5.6533, 6.0533 ! 5.6533, 6.0583 ! latt_ct: a1-OUT, a2-IN// GaAs:5.6533; GaSb:6.0583/ C:3.567; Si:5.431020511/GaAs:5.6533, InAs:6.0533(Angstrom unit) diamond
-	1,4,4,4,4 ! 1,10,10,6,12 ! 1,12,12,12,12 ! 1,13,13,13,13 ! 1,6,6,5,6 !   *  Nw,nx,ny,nzmin, nzmax
+	1,6,6,5,6 ! 1,4,4,4,4 ! Nw,nx,ny,nzmin, nzmax
 11.88, 5.38, 8.33, 4.53 ! elast_ct: C11-out, C12-out; C11-in, C12in//GaAs:11.88, 5.38; InAs: 8.33, 4.53
-	4, 2.7 ! 4, 2.4 !  4, 2.4 ! , 2.7, 4, 2.4, 1.6 ! radius,radiuscut1 (Angstrom unit) for Si-in/C-out
-	1, 1d+14 ! 1, 8d+10 !1, 4d+12 ! *strtmax; factr
+	4, 2.7 ! 4, 2.4 !  4, 2.7, 4, 2.4, 1.6 ! radius,radiuscut1 (Angstrom unit) for Si-in/C-out
+	1, 1d+11 ! 1, 4d+12 ! *strtmax; factr
 	0, 0 ! latshift1, latshift2
-	2 ! 3 ! only for core-shell: htj=2 two atoms (Si/C); htj=3 for 3 atoms (InAs/GaAs)
+	3 ! 2 ! only for core-shell: htj=2 two atoms (Si/C); htj=3 for 3 atoms (InAs/GaAs)
 	1 ! 0 ! only for core-shell: celshape=0 for parallepiped; celshape=1 for sphere; 
 	1 ! 0 ! only for core-shell: CSQD=1 for a1->a2; CSQD.ne.1 for a1.ne.a2; DO NOT make a1=a2 in the above line 9 if CSQD=1 (because a1->a2 automatically)
 *************************************************************
@@ -49,10 +49,10 @@ Rc-con radius; h-cone height.
 Rct-con radius; height=ht (height of cone); height truncated cone=hct (distance between the centers of the two bases) 
 RCO-core radius; RCS-core+shell radius
 ---
-a1-latt_ct OUT, a2-latt_ct IN (unit Angstrˆm).
+a1-latt_ct OUT, a2-latt_ct IN (unit Angstr√∂m).
 ---
 Nw,nx,ny,nzmin, nzmax 
-	For QD=1,2,3: Nw #mono-layers; nx, ny #atoms for x>0, y>0 axes; nzmin #atoms on negatÌve z axis; nzmin #atoms on positive z axis.
+	For QD=1,2,3: Nw #mono-layers; nx, ny #atoms for x>0, y>0 axes; nzmin #atoms on negat√≠ve z axis; nzmin #atoms on positive z axis.
 	For QD=4: nx=ny=nzmin=nzmax; Nw any integer (doesn't enter in the coding).
 ---
 C11out, C12out: elastic constants from D. Barettin et al. Commun. Comput. Phys. 11, 797-830(2012).
